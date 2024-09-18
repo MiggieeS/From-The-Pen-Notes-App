@@ -68,6 +68,7 @@ class HomePage extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Notes', icon: const Icon(Icons.note, color: Color(0xFFFFDEA7))),
+              Tab(text: 'Folders', icon: const Icon(Icons.folder, color: Color(0xFFFFDEA7))),
             ],
             labelColor: const Color(0xFFFFDEA7),
             unselectedLabelColor: Colors.grey,
