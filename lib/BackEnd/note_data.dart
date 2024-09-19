@@ -10,13 +10,14 @@ class NoteData{
   int id;
   String text;
   DateTime lastSaved; //added -gab
-  String noteText;//added -gab
+  String noteText;
+
 
 
   NoteData({
     required this.id,
     required this.text,
     required this.lastSaved, //added -gab
-    required this.noteText //added -gab
+    required this.noteText, //added -gab
   });
 }
