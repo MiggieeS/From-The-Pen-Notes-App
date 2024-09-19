@@ -150,7 +150,26 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
-          ],// edit here dean wzzap
+            ListView.builder(
+                padding: const EdgeInsets.all(8.0),
+                itemCount: noteOperations.getAllNotes().length,
+                itemBuilder: (context, index){
+                  var folder = noteOperations.getAllNotes()[index];
+                  return GestureDetector(
+                    onTap: () => _onNoteTap(context, folder),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin:  EdgeInsets.only(top: 15.0,left: 7.0,right:7.0),
+                            child: folderButton(),
+                        )
+                      ],
+                    ),
+                  );
+                }
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -173,5 +192,33 @@ class HomePage extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
+  }
+}
+class folderButton extends StatefulWidget{
+  const folderButton({Key? key}) : super(key:key);
+  @override
+  State<folderButton> createState() => _FolderButtonState();
+}
+class _FolderButtonState extends State<folderButton> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 500,
+      child:ElevatedButton(
+        style: ElevatedButton.styleFrom(
+               backgroundColor: Color(0xFFFFDEA7),
+               shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(8.0)
+               ) ),
+        onPressed: () {},
+        child: Text("Create Folder",
+                    style: GoogleFonts.readexPro(
+                        color: Color(0xFF474747),
+                        fontSize: 18
+                    ),
+          ),
+        ),
+      );
   }
 }
