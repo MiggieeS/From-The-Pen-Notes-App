@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes_app_v2/Front/profilePage.dart';
 import 'package:provider/provider.dart';
 import 'CreatePage.dart';
 import '../BackEnd/note_data.dart';
@@ -7,7 +8,9 @@ import '../BackEnd/note_operations.dart';
 import 'inner_notes_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final Color? selectedColor;
+
+  const HomePage({Key? key, this.selectedColor}) : super(key: key);
 
   void _onNoteTap(BuildContext context, NoteData note) {
     Navigator.push(
@@ -23,12 +26,12 @@ class HomePage extends StatelessWidget {
     var noteOperations = Provider.of<NoteOperations>(context);
 
     return DefaultTabController(
-      length: 2, // Number of tabs
+      length: 2,
       child: Scaffold(
         backgroundColor: const Color(0xFF1c1c1c),
         appBar: AppBar(
           backgroundColor: const Color(0xFF1c1c1c),
-          automaticallyImplyLeading: false, // remove back button
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               Expanded(
@@ -55,8 +58,12 @@ class HomePage extends StatelessWidget {
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.person, color: Color(0xFFFFDEA7)),
                         onPressed: () {
-                          // Handle profile button press
-                          print('Profile button pressed');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProfilePage(),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -92,16 +99,21 @@ class HomePage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        // Image on top
-                        Container(// edit bere bro
+                        // Image or solid color on top
+                        Container(
                           width: double.infinity,
                           height: 120,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                            image: DecorationImage(
-                              image: NetworkImage('https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'), // Replace with your image URL
+                            color: selectedColor ?? const Color(0xFF474747), // Use selectedColor or default color
+                            image: selectedColor == null
+                                ? DecorationImage(
+                              image: NetworkImage(
+                                  'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'
+                              ),
                               fit: BoxFit.cover,
-                            ),
+                            )
+                                : null,
                           ),
                         ),
                         // Text and actions inside a Row
@@ -150,7 +162,26 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
-          ],// edit here dean wzzap
+            ListView.builder(
+                padding: const EdgeInsets.all(8.0),
+                itemCount: noteOperations.getAllNotes().length,
+                itemBuilder: (context, index) {
+                  var folder = noteOperations.getAllNotes()[index];
+                  return GestureDetector(
+                    onTap: () => _onNoteTap(context, folder),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
+                          child: folderButton(),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -171,6 +202,39 @@ class HomePage extends StatelessWidget {
           child: const Icon(Icons.add, color: Color(0xFF1C1C1C)),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      ),
+    );
+  }
+}
+
+class folderButton extends StatefulWidget {
+  const folderButton({Key? key}) : super(key: key);
+
+  @override
+  State<folderButton> createState() => _FolderButtonState();
+}
+
+class _FolderButtonState extends State<folderButton> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 500,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFFFFDEA7),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        onPressed: () {},
+        child: Text(
+          "Create Folder",
+          style: GoogleFonts.readexPro(
+            color: Color(0xFF474747),
+            fontSize: 18,
+          ),
+        ),
       ),
     );
   }

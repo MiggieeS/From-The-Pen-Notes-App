@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../BackEnd/note_operations.dart';
 import '../BackEnd/note_data.dart';
 import 'inner_notes_page.dart';
-import 'home_page.dart';  // Import the HomePage
+import 'home_page.dart';  // Import HomePage
 
 class CreatePageWidget extends StatefulWidget {
   const CreatePageWidget({super.key});
@@ -16,25 +16,25 @@ class CreatePageWidget extends StatefulWidget {
 class _CreatePageWidgetState extends State<CreatePageWidget> {
   late TextEditingController _taskTextController;
   late FocusNode _taskFocusNode;
-
-  late TextEditingController _descriptionTextController;
-  late FocusNode _descriptionFocusNode;
-
   late TextEditingController _imageUrlController;
   late FocusNode _imageUrlFocusNode;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
+  Color? _selectedColor; // State variable for selected color
+
+  final List<Color> _colors = [ // List of available colors
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+    Colors.orange,
+  ];
 
   @override
   void initState() {
     super.initState();
     _taskTextController = TextEditingController();
     _taskFocusNode = FocusNode();
-
-    _descriptionTextController = TextEditingController();
-    _descriptionFocusNode = FocusNode();
-
     _imageUrlController = TextEditingController();
     _imageUrlFocusNode = FocusNode();
   }
@@ -43,8 +43,6 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
   void dispose() {
     _taskTextController.dispose();
     _taskFocusNode.dispose();
-    _descriptionTextController.dispose(); // currently not used
-    _descriptionFocusNode.dispose();
     _imageUrlController.dispose();
     _imageUrlFocusNode.dispose();
     super.dispose();
@@ -101,9 +99,8 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                   size: 24,
                 ),
                 onPressed: () async {
-                  // Navigate to HomePage
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(builder: (context) => HomePage(selectedColor: _selectedColor)), // Pass color to HomePage
                         (Route<dynamic> route) => false,
                   );
                 },
@@ -201,7 +198,7 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                     ),
                                     style: GoogleFonts.readexPro(
                                       textStyle: TextStyle(
-                                        color: Colors.white, // Ensure text color is white
+                                        color: Colors.white,
                                         letterSpacing: 0.0,
                                       ),
                                     ),
@@ -209,81 +206,6 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter a task or title';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  SizedBox(height: 12),
-                                  TextFormField(
-                                    controller: _descriptionTextController,
-                                    focusNode: _descriptionFocusNode,
-                                    autofocus: true,
-                                    textCapitalization: TextCapitalization.words,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      labelText: 'Description...',
-                                      labelStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          letterSpacing: 0.0,
-                                        ),
-                                      ),
-                                      alignLabelWithHint: true,
-                                      hintStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          letterSpacing: 0.0, color: Colors.white,
-                                        ),
-                                      ),
-                                      errorStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 12,
-                                          letterSpacing: 0.0,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey,
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.blue,
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.red,
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.red,
-                                          width: 2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      filled: true,
-                                      fillColor: Color(0xFF1C1C1C),
-                                      contentPadding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                                    ),
-                                    style: GoogleFonts.readexPro(
-                                      textStyle: TextStyle(
-                                        color: Colors.white, // Ensure text color is white
-                                        letterSpacing: 0.0,
-                                      ),
-                                    ),
-                                    maxLines: 9,
-                                    minLines: 5,
-                                    cursorColor: Colors.blue,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter a description';
                                       }
                                       return null;
                                     },
@@ -327,40 +249,76 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                     ),
                                     style: GoogleFonts.readexPro(
                                       textStyle: TextStyle(
-                                        color: Colors.white, // Ensure text color is white
+                                        color: Colors.white,
                                         letterSpacing: 0.0,
                                       ),
                                     ),
                                     cursorColor: Colors.blue,
                                   ),
                                   SizedBox(height: 12),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // Create a new note and navigate to InnerNotesPage
-                                      final newNote = NoteData(
-                                        id: DateTime.now().millisecondsSinceEpoch, // Unique ID for the note
-                                        text: _taskTextController.text,
-                                      );
-                                      // Add the new note to the note operations
-                                      noteOperations.addNewNote(newNote);
-                                      // Navigate to InnerNotesPage
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => InnerNotesPage(noteData: newNote),
+                                  // Color Picker Section
+                                  Text(
+                                    'Select a Color:',
+                                    style: GoogleFonts.readexPro(
+                                      textStyle: TextStyle(
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: _colors.map((color) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedColor = color;
+                                          });
+                                        },
+                                        child: CircleAvatar(
+                                          backgroundColor: color,
+                                          radius: 30,
+                                          child: _selectedColor == color
+                                              ? Icon(Icons.check, color: Colors.white)
+                                              : null,
                                         ),
                                       );
+                                    }).toList(),
+                                  ),
+                                  SizedBox(height: 12),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        // Create a new note and navigate to InnerNotesPage
+                                        final newNote = NoteData(
+                                          id: DateTime.now().millisecondsSinceEpoch, // Unique ID for the note
+                                          text: _taskTextController.text,
+                                          lastSaved: DateTime.now(), noteText: '', // Add the date when it was last saved
+                                        );
+                                        // Add the new notes to the note operations
+                                        noteOperations.addNewNote(newNote);
+                                        // Pass the selected color to HomePage
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => HomePage(selectedColor: _selectedColor),
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: Text(
                                       'Get Started',
                                       style: GoogleFonts.readexPro(
                                         textStyle: TextStyle(
-                                          color: Color(0xFF222222),
+                                          color: Color(0xFF222222), // Text color
                                           letterSpacing: 0.0,
                                         ),
                                       ),
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFFFDEA7),
+                                      backgroundColor: Color(0xFFFFDEA7), // Fixed color
                                       padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
