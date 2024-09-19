@@ -160,7 +160,10 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        folderButton(),
+                        Container(
+                            margin:  EdgeInsets.only(top: 15.0,left: 7.0,right:7.0),
+                            child: folderButton(),
+                        )
                       ],
                     ),
                   );
@@ -203,10 +206,19 @@ class _FolderButtonState extends State<folderButton> {
       height: 50,
       width: 500,
       child:ElevatedButton(
-        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFFDEA7))),
+        style: ElevatedButton.styleFrom(
+               backgroundColor: Color(0xFFFFDEA7),
+               shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(8.0)
+               ) ),
         onPressed: () {},
-        child: Text("Create Folder"),
-      )
-    );
+        child: Text("Create Folder",
+                    style: GoogleFonts.readexPro(
+                        color: Color(0xFF474747),
+                        fontSize: 18
+                    ),
+          ),
+        ),
+      );
   }
 }
