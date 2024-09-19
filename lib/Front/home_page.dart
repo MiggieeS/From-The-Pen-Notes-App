@@ -150,7 +150,23 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
-          ],// edit here dean wzzap
+            ListView.builder(
+                padding: const EdgeInsets.all(8.0),
+                itemCount: noteOperations.getAllNotes().length,
+                itemBuilder: (context, index){
+                  var folder = noteOperations.getAllNotes()[index];
+                  return GestureDetector(
+                    onTap: () => _onNoteTap(context, folder),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        folderButton(),
+                      ],
+                    ),
+                  );
+                }
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -172,6 +188,25 @@ class HomePage extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
+    );
+  }
+}
+class folderButton extends StatefulWidget{
+  const folderButton({Key? key}) : super(key:key);
+  @override
+  State<folderButton> createState() => _FolderButtonState();
+}
+class _FolderButtonState extends State<folderButton> {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 500,
+      child:ElevatedButton(
+        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color(0xFFFFDEA7))),
+        onPressed: () {},
+        child: Text("Create Folder"),
+      )
     );
   }
 }
