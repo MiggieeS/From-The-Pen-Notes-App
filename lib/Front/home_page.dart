@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes_app_v2/Front/profilePage.dart';
 import 'package:provider/provider.dart';
 import 'CreatePage.dart';
 import '../BackEnd/note_data.dart';
@@ -55,8 +56,12 @@ class HomePage extends StatelessWidget {
                       suffixIcon: IconButton(
                         icon: const Icon(Icons.person, color: Color(0xFFFFDEA7)),
                         onPressed: () {
-                          // Handle profile button press
-                          print('Profile button pressed');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProfilePage(), // Navigate to ProfilePage
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -93,7 +98,7 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         // Image on top
-                        Container(// edit bere bro
+                        Container(
                           width: double.infinity,
                           height: 120,
                           decoration: BoxDecoration(
