@@ -14,13 +14,13 @@ import 'note_data.dart';
 
 class NoteOperations extends ChangeNotifier{
   List<NoteData> allNotes = [
-    NoteData(id:0, text: 'Test Note (1)')
+    NoteData(id:0, text: 'Test Note (1)', lastSaved:DateTime.now(), noteText: '')
+    // added lastSaved:DateTime.now(), noteText: '' -gab
   ];
 
   List<NoteData> getAllNotes (){
     return allNotes;
   }
-
   void addNewNote(NoteData noteData){
     allNotes.add(noteData);
     notifyListeners();
