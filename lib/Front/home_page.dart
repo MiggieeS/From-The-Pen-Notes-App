@@ -227,7 +227,38 @@ class _FolderButtonState extends State<folderButton> {
             borderRadius: BorderRadius.circular(8.0),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Create new Folder'),
+              actions: [
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Folder name',
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('Ok')
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
         child: Text(
           "Create Folder",
           style: GoogleFonts.readexPro(
