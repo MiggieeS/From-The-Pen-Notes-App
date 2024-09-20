@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'login_page.dart'; // Import the LoginPage
+import 'home_page.dart'; // Import HomePage
+import 'acctInfo.dart'; // Import the acctInfo page
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -10,6 +13,16 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: const Color(0xFF1C1C1C),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1C1C1C),
+        leading: IconButton(
+          icon: const Icon(Icons.close, color: Color(0xFFFFDEA7)),
+          onPressed: () {
+            // Navigate back to HomePage when "X" is pressed
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+        ),
         title: Text(
           'Profile',
           style: GoogleFonts.readexPro(
@@ -27,7 +40,7 @@ class ProfilePage extends StatelessWidget {
           CircleAvatar(
             radius: 50,
             backgroundImage: NetworkImage(
-              'https://www.w3schools.com/w3images/avatar2.png', // Replace with user profile picture
+              'https://www.w3schools.com/w3images/avatar2.png', // Replace with profile picture
             ),
           ),
           const SizedBox(height: 15),
@@ -50,7 +63,13 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.person,
                   title: 'Account Information',
                   onTap: () {
-                    // Handle Account Information tap
+                    // Navigate to the AccountInfoPage when this button is pressed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AccountInfoPage(),
+                      ),
+                    );
                   },
                 ),
                 _buildProfileCard(
@@ -64,7 +83,7 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.logout,
                   title: 'Log Out',
                   onTap: () {
-                    // Handle Log Out tap
+                    _showLogoutConfirmation(context); // Show confirmation dialog
                   },
                 ),
               ],
@@ -97,6 +116,64 @@ class ProfilePage extends StatelessWidget {
         ),
         onTap: onTap,
       ),
+    );
+  }
+
+  // Function to show the logout confirmation dialog
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF1C1C1C),
+          title: Text(
+            'Log Out',
+            style: GoogleFonts.readexPro(
+              color: const Color(0xFFFFDEA7),
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to log out of your account?',
+            style: GoogleFonts.readexPro(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog (No)
+              },
+              child: Text(
+                'No',
+                style: GoogleFonts.readexPro(
+                  color: const Color(0xFFFFDEA7),
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                      (Route<dynamic> route) => false, // Log out and remove stack
+                );
+              },
+              child: Text(
+                'Yes',
+                style: GoogleFonts.readexPro(
+                  color: const Color(0xFFFFDEA7),
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

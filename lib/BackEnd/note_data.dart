@@ -11,7 +11,7 @@ class NoteData{
   String text;
   DateTime lastSaved; //added -gab
   String noteText;
-//-
+
 
 
   NoteData({

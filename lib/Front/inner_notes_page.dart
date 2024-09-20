@@ -12,7 +12,7 @@ class InnerNotesPage extends StatefulWidget {
   @override
   _InnerNotesPageState createState() => _InnerNotesPageState();
 }
-//-
+
 class _InnerNotesPageState extends State<InnerNotesPage> {
   late TextEditingController _titleController;
   late TextEditingController _noteController;
