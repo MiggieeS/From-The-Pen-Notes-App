@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var noteOperations = Provider.of<NoteOperations>(context);
-
+    //search bar
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ),// Tabs for Folder and Notes
           bottom: TabBar(
             tabs: [
               Tab(text: 'Notes', icon: const Icon(Icons.note, color: Color(0xFFFFDEA7))),
@@ -132,7 +132,7 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // Actions on the right
+                              // delete button
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Row(
@@ -144,6 +144,7 @@ class HomePage extends StatelessWidget {
                                         noteOperations.deleteNode(note);
                                       },
                                     ),
+                                    // favorite button (non functional yet)
                                     IconButton(
                                       icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
                                       onPressed: () {
@@ -191,7 +192,6 @@ class HomePage extends StatelessWidget {
               ),
             );
 
-            // If a new note was created, add it to the notes
             if (result != null && result is NoteData) {
               noteOperations.addNewNote(result);
             }
