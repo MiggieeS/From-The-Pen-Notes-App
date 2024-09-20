@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 
 
+// WILL DELETE SOON
+
+
+
 /*NOTES!!
 * Avoid using Transform.translate whenever possible. If not, properly contain widgets using containers, rows, columns or use mediaquery
 * this is to ensure that no widgets will be anchored to specific x and y values on a screen. ( if anchored, this will lead to screen issues)

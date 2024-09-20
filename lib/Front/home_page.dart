@@ -168,7 +168,7 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var folder = noteOperations.getAllNotes()[index];
                   return GestureDetector(
-                    onTap: () => _onNoteTap(context, folder),
+                    onTap:  () => _onNoteTap(context, folder),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
