@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 30),
               SizedBox(
-                 //password textfield box
+                //password textfield box
                 //Use mediaquery to auto automatically scale our boxes to a device's screen
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextField(

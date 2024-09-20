@@ -29,7 +29,7 @@ class AccountDrawer extends StatelessWidget {
 
           //This code needs to be refactored. This takes in a predetermined text name instead of using getters to grab the user's name to display
           //The reason for this is that there is no backend currently to handle this page
-         const UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             accountName: Text('My name', style: TextStyle(color: Colors.white)),
             accountEmail: Text('MyNameIs@blank.com', style: TextStyle(color: Colors.grey)),
             currentAccountPicture: CircleAvatar(
@@ -58,8 +58,8 @@ class AccountDrawer extends StatelessWidget {
             title: Text('Logout', style: TextStyle(color: Colors.white)),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
           ),
