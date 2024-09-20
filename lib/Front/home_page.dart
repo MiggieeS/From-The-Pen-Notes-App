@@ -163,25 +163,27 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
-            ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                itemCount: 1,  // this will stay static for now, we cant handle actual adding of buttons/folders
-                itemBuilder: (context, index) {
-                  var folder = noteOperations.getAllNotes()[index];
-                  return GestureDetector(
-                    onTap:  () => _onNoteTap(context, folder),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
-                          child: folderButton(),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-            ),
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
+                  child: folderButton(),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: noteOperations.getAllNotes().length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: (){},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                        );
+                      }
+                  ),)
+              ],
+            )
           ],
         ),
         floatingActionButton: FloatingActionButton(
