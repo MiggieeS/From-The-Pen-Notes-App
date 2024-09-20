@@ -16,58 +16,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   String password = 'g@bberSS'; // This will be hidden as ******
   bool isPasswordVisible = false;
 
-  // Function to handle the password viewing logic
-  void _showPasswordInputDialog() {
-    String enteredPassword = '';
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xFF1C1C1C),
-          title: Text(
-            'Enter Password First',
-            style: GoogleFonts.readexPro(
-              color: const Color(0xFFFFDEA7),
-              fontSize: 18,
-            ),
-          ),
-          content: TextField(
-            obscureText: true,
-            onChanged: (value) => enteredPassword = value,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Enter your password',
-              hintStyle: GoogleFonts.readexPro(
-                color: const Color(0xFF878787),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel', style: GoogleFonts.readexPro(color: Colors.red)),
-            ),
-            TextButton(
-              onPressed: () {
-                if (enteredPassword == password) {
-                  setState(() {
-                    isPasswordVisible = true;
-                  });
-                  Navigator.pop(context); // Close the dialog
-                } else {
-                  // Display error or feedback
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Incorrect password!', style: GoogleFonts.readexPro())),
-                  );
-                }
-              },
-              child: Text('Confirm', style: GoogleFonts.readexPro(color: const Color(0xFFFFDEA7))),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   // Function to handle the change password logic
   void _showChangePasswordDialog() {
@@ -84,6 +32,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
+
                 'Change Password',
                 style: GoogleFonts.readexPro(
                   color: const Color(0xFFFFDEA7),
@@ -103,6 +52,9 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             children: [
               TextField(
                 obscureText: true,
+                style: GoogleFonts.readexPro(
+                  color: Colors.white,
+                ),
                 decoration: InputDecoration(
                   hintText: 'Current Password',
                   hintStyle: GoogleFonts.readexPro(color: const Color(0xFF878787)),
@@ -112,6 +64,9 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               ),
               const SizedBox(height: 10),
               TextField(
+                style: GoogleFonts.readexPro(
+                  color: Colors.white,
+                ),
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'New Password',
@@ -122,6 +77,9 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               ),
               const SizedBox(height: 10),
               TextField(
+                style: GoogleFonts.readexPro(
+                  color: Colors.white,
+                ),
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Confirm New Password',
@@ -195,7 +153,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             _buildInfoRow('First Name', firstName),
             _buildInfoRow('Last Name', lastName),
             _buildInfoRow('Email', email),
-            _buildPasswordRow(),
             const SizedBox(height: 20),
             Center(
               child: ElevatedButton(
@@ -266,10 +223,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                   color: const Color(0xFFFFDEA7),
                   fontSize: 18,
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.visibility, color: Color(0xFFFFDEA7)),
-                onPressed: _showPasswordInputDialog,
               ),
             ],
           ),
