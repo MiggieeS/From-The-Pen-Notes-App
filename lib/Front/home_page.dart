@@ -165,6 +165,7 @@ class HomePage extends StatelessWidget {
             ),
             ListView.builder(
                 padding: const EdgeInsets.all(8.0),
+                itemCount: 1,  // this will stay static for now, we cant handle actual adding of buttons/folders
                 itemBuilder: (context, index) {
                   var folder = noteOperations.getAllNotes()[index];
                   return GestureDetector(
