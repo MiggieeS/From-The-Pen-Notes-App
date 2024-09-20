@@ -124,7 +124,7 @@ class HomePage extends StatelessWidget {
                               Expanded(
                                 child: Center(
                                   child: Text(
-                                    note.text, // Replace with dynamic content
+                                    note.text,
                                     style: GoogleFonts.readexPro(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -147,7 +147,7 @@ class HomePage extends StatelessWidget {
                                     IconButton(
                                       icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
                                       onPressed: () {
-                                        // Handle star action
+
                                       },
                                     ),
                                   ],
@@ -184,7 +184,6 @@ class HomePage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // Navigate to the CreatePageWidget and wait for a result
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
