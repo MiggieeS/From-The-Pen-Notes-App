@@ -164,7 +164,6 @@ class HomePage extends StatelessWidget {
             ),
             ListView.builder(
                 padding: const EdgeInsets.all(8.0),
-                itemCount: noteOperations.getAllNotes().length,
                 itemBuilder: (context, index) {
                   var folder = noteOperations.getAllNotes()[index];
                   return GestureDetector(
