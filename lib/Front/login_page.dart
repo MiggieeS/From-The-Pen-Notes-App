@@ -36,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    //Login text
     return Scaffold(
       backgroundColor: const Color(0xFF151515),
       body: SafeArea(
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              // Sign in to continue text
               Padding(
                 padding: const EdgeInsets.only(left: 35.0, bottom: 30.0),
                 child: Align(

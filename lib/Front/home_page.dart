@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var noteOperations = Provider.of<NoteOperations>(context);
-    //search bar
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ],
-          ),// Tabs for Folder and Notes
+          ),
           bottom: TabBar(
             tabs: [
               Tab(text: 'Notes', icon: const Icon(Icons.note, color: Color(0xFFFFDEA7))),
@@ -81,128 +81,142 @@ class HomePage extends StatelessWidget {
             unselectedLabelColor: Colors.grey,
           ),
         ),
-        body: TabBarView(
+        body: Stack(
           children: [
-            ListView.builder(
-              padding: const EdgeInsets.all(8.0),
-              itemCount: noteOperations.getAllNotes().length,
-              itemBuilder: (context, index) {
-                var note = noteOperations.getAllNotes()[index];
-                return GestureDetector(
-                  onTap: () => _onNoteTap(context, note),
-                  child: Container(
-                    height: 200,
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: const Color(0xFF474747),
-                    ),
-                    child: Column(
-                      children: [
-                        // Image or solid color on top
-                        Container(
-                          width: double.infinity,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                            color: selectedColor ?? const Color(0xFF474747), // Use selectedColor or default color
-                            image: selectedColor == null
-                                ? DecorationImage(
-                              image: NetworkImage(
-                                  'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'
-                              ),
-                              fit: BoxFit.cover,
-                            )
-                                : null,
-                          ),
+            TabBarView(
+              children: [
+                ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: noteOperations.getAllNotes().length,
+                  itemBuilder: (context, index) {
+                    var note = noteOperations.getAllNotes()[index];
+                    return GestureDetector(
+                      onTap: () => _onNoteTap(context, note),
+                      child: Container(
+                        height: 200,
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color(0xFF474747),
                         ),
-                        // Text and actions inside a Row
-                        Expanded(
-                          child: Row(
-                            children: [
-                              // Note Title on the left
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    note.text,
-                                    style: GoogleFonts.readexPro(
-                                      color: Colors.white,
-                                      fontSize: 18,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                                color: selectedColor ?? const Color(0xFF474747),
+                                image: selectedColor == null
+                                    ? DecorationImage(
+                                  image: NetworkImage(
+                                      'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
+                                  fit: BoxFit.cover,
+                                )
+                                    : null,
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        note.text,
+                                        style: GoogleFonts.readexPro(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              // delete button
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.delete, color: Color(0xFFFFDEA7)),
-                                      onPressed: () {
-                                        noteOperations.deleteNode(note);
-                                      },
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.delete, color: Color(0xFFFFDEA7)),
+                                          onPressed: () {
+                                            noteOperations.deleteNode(note);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
+                                          onPressed: () {},
+                                        ),
+                                      ],
                                     ),
-                                    // favorite button (non functional yet)
-                                    IconButton(
-                                      icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
-                                      onPressed: () {
-
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
-                  child: folderButton(),
+                      ),
+                    );
+                  },
                 ),
-                Expanded(
-                  child: ListView.builder(
-                      padding: const EdgeInsets.all(8.0),
-                      itemCount: noteOperations.getAllNotes().length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: (){},
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                          ),
-                        );
-                      }
-                  ),)
+                Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
+                      child: folderButton(),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: noteOperations.getAllNotes().length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                )
               ],
-            )
+            ),
+            // First floating button
+            Positioned(
+              bottom: 80,
+              right: 20,
+              child: FloatingActionButton(
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CreatePageWidget(),
+                    ),
+                  );
+
+                  if (result != null && result is NoteData) {
+                    noteOperations.addNewNote(result);
+                  }
+                },
+                backgroundColor: const Color(0xFFFFDEA7),
+                child: const Icon(Icons.add, color: Color(0xFF1C1C1C)),
+              ),
+            ),
+            // Second floating button
+            Positioned(
+              bottom: 150,
+              right: 20,
+              child: FloatingActionButton(
+                onPressed: () {
+                  // Action for the second button
+                  print('Second FAB pressed');
+                },
+                backgroundColor: const Color(0xFFFFDEA7),
+                child: const Icon(Icons.folder_open, color: Color(0xFF1C1C1C)),
+              ),
+            ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final result = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CreatePageWidget(),
-              ),
-            );
-
-            if (result != null && result is NoteData) {
-              noteOperations.addNewNote(result);
-            }
-          },
-          backgroundColor: const Color(0xFFFFDEA7),
-          child: const Icon(Icons.add, color: Color(0xFF1C1C1C)),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
@@ -249,10 +263,7 @@ class _FolderButtonState extends State<folderButton> {
                         onPressed: () => Navigator.pop(context),
                         child: Text('Cancel'),
                       ),
-                      TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Ok')
-                      )
+                      TextButton(onPressed: () => Navigator.pop(context), child: Text('Ok'))
                     ],
                   ),
                 )

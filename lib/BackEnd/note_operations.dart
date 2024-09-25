@@ -26,8 +26,6 @@ class NoteOperations extends ChangeNotifier{
     notifyListeners();
   }
 
-
-
   void updateNote(NoteData noteData, String text){
     for (int i = 0; i<allNotes.length;i++){
       if(allNotes[i].id == noteData.id){

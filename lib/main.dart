@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+
         title: 'Note Taking App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
