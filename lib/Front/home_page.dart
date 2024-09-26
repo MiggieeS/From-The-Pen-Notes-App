@@ -75,81 +75,77 @@ class HomePage extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            TabBarView(
-              children: [
-                ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
-                  itemCount: noteOperations.getAllNotes().length,
-                  itemBuilder: (context, index) {
-                    var note = noteOperations.getAllNotes()[index];
-                    return GestureDetector(
-                      onTap: () => _onNoteTap(context, note),
-                      child: Container(
-                        height: 200,
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xFF474747),
+            ListView.builder(
+              padding: const EdgeInsets.all(8.0),
+              itemCount: noteOperations.getAllNotes().length,
+              itemBuilder: (context, index) {
+                var note = noteOperations.getAllNotes()[index];
+                return GestureDetector(
+                  onTap: () => _onNoteTap(context, note),
+                  child: Container(
+                    height: 200,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: const Color(0xFF474747),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                            color: selectedColor ?? const Color(0xFF474747),
+                            image: selectedColor == null
+                                ? DecorationImage(
+                              image: NetworkImage(
+                                  'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
+                              fit: BoxFit.cover,
+                            )
+                                : null,
+                          ),
                         ),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                                color: selectedColor ?? const Color(0xFF474747),
-                                image: selectedColor == null
-                                    ? DecorationImage(
-                                  image: NetworkImage(
-                                      'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
-                                  fit: BoxFit.cover,
-                                )
-                                    : null,
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        note.text,
-                                        style: GoogleFonts.readexPro(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                        ),
-                                      ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    note.text,
+                                    style: GoogleFonts.readexPro(
+                                      color: Colors.white,
+                                      fontSize: 18,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(Icons.delete, color: Color(0xFFFFDEA7)),
-                                          onPressed: () {
-                                            noteOperations.deleteNode(note);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
-                                          onPressed: () {},
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.delete, color: Color(0xFFFFDEA7)),
+                                      onPressed: () {
+                                        noteOperations.deleteNode(note);
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
             // First floating button
             Positioned(
