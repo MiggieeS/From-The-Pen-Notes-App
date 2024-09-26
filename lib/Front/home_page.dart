@@ -6,6 +6,7 @@ import 'CreatePage.dart';
 import '../BackEnd/note_data.dart';
 import '../BackEnd/note_operations.dart';
 import 'inner_notes_page.dart';
+import 'folder_floating_action_button.dart';
 
 class HomePage extends StatelessWidget {
   final Color? selectedColor;
@@ -24,7 +25,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var noteOperations = Provider.of<NoteOperations>(context);
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
