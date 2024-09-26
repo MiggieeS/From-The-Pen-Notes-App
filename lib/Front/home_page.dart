@@ -157,28 +157,6 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ),
-                Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
-                      child: folderButton(),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(8.0),
-                        itemCount: noteOperations.getAllNotes().length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                )
               ],
             ),
             // First floating button
@@ -222,63 +200,3 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class folderButton extends StatefulWidget {
-  const folderButton({Key? key}) : super(key: key);
-
-  @override
-  State<folderButton> createState() => _FolderButtonState();
-}
-
-class _FolderButtonState extends State<folderButton> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: 500,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFFFDEA7),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Create new Folder'),
-              actions: [
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter Folder name',
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text('Cancel'),
-                      ),
-                      TextButton(onPressed: () => Navigator.pop(context), child: Text('Ok'))
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-        child: Text(
-          "Create Folder",
-          style: GoogleFonts.readexPro(
-            color: Color(0xFF474747),
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
-  }
-}
