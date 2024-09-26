@@ -7,8 +7,8 @@ import 'inner_notes_page.dart';
 import 'home_page.dart';  // Import HomePage
 
 class CreatePageWidget extends StatefulWidget {
-  const CreatePageWidget({super.key});
-
+  final String selectedFolder; // Added to accept the selected folder
+  const CreatePageWidget({super.key, required this.selectedFolder}); // Constructor update
   @override
   State<CreatePageWidget> createState() => _CreatePageWidgetState();
 }
@@ -297,6 +297,7 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                           id: DateTime.now().millisecondsSinceEpoch, // Unique ID for the note
                                           text: _taskTextController.text,
                                           lastSaved: DateTime.now(), noteText: '', // Add the date when it was last saved
+                                          folder: widget.selectedFolder,
                                         );
                                         // Add the new notes to the note operations
                                         noteOperations.addNewNote(newNote);

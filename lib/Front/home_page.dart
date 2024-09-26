@@ -7,10 +7,17 @@ import '../BackEnd/note_data.dart';
 import '../BackEnd/note_operations.dart';
 import 'inner_notes_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final Color? selectedColor;
 
   const HomePage({Key? key, this.selectedColor}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String selectedFolder = 'default';
 
   void _onNoteTap(BuildContext context, NoteData note) {
     Navigator.push(
@@ -21,9 +28,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     var noteOperations = Provider.of<NoteOperations>(context);
+    List<NoteData> filteredNotes = noteOperations.getNotesByFolder(selectedFolder);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -75,9 +84,27 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        body: Stack(
+        body:Stack(
             children: [
-              ListView.builder(
+              // Dropdown to select a folder when creating a new one!!
+              DropdownButton<String>(
+                value: selectedFolder,
+                items: noteOperations.getAllFolders().map((folder) {
+                  return DropdownMenuItem<String>(
+                    value: folder,
+                    child: Text(folder, style: GoogleFonts.readexPro(color: Colors.white)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedFolder = value!;
+                  });
+                },
+                dropdownColor: const Color(0xFF474747),
+                style: const TextStyle(color: Colors.white),
+              ),
+              Expanded(
+                child: ListView.builder(
                 padding: const EdgeInsets.all(8.0),
                 itemCount: noteOperations.getAllNotes().length,
                 itemBuilder: (context, index) {
@@ -98,8 +125,8 @@ class HomePage extends StatelessWidget {
                             height: 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                              color: selectedColor ?? const Color(0xFF474747),
-                              image: selectedColor == null
+                              color: widget.selectedColor ?? const Color(0xFF474747),
+                              image: widget.selectedColor == null
                                   ? DecorationImage(
                                 image: NetworkImage(
                                     'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
@@ -149,7 +176,7 @@ class HomePage extends StatelessWidget {
                   );
                 },
               ),
-              // First floating button
+              ), // First floating button
               Positioned(
                 bottom: 50,
                 right: 20,
@@ -158,7 +185,7 @@ class HomePage extends StatelessWidget {
                     final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CreatePageWidget(),
+                        builder: (context) => CreatePageWidget(selectedFolder: selectedFolder), // Pass the selected folder here
                       ),
                     );
                     if (result != null && result is NoteData) {
