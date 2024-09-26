@@ -11,7 +11,7 @@ class NoteData{
   String text;
   DateTime lastSaved; //added -gab
   String noteText;
-
+  String folder; //added to store the folder name
 
 
   NoteData({
@@ -19,5 +19,6 @@ class NoteData{
     required this.text,
     required this.lastSaved, //added -gab
     required this.noteText, //added -gab
+    required this.folder,
   });
 }
