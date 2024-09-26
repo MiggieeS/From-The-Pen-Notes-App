@@ -29,15 +29,15 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFF1c1c1c),
         appBar: AppBar(
+          toolbarHeight: 100,
           backgroundColor: const Color(0xFF1c1c1c),
           automaticallyImplyLeading: false,
           title: Row(
             children: [
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(top: 30.0),
+                  margin: EdgeInsets.only(top: 20.0),
                   child:SizedBox(
-                    height: 50,
                     child: TextField(
                       style: GoogleFonts.readexPro(
                         color: Colors.black,
@@ -75,9 +75,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        body:Container(
-          margin: EdgeInsets.only(top: 20.0),
-          child: Stack(
+        body: Stack(
             children: [
               ListView.builder(
                 padding: const EdgeInsets.all(8.0),
@@ -205,8 +203,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
         )
-      ),
-    );
+      );
   }
 }
 
