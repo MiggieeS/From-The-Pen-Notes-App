@@ -86,97 +86,84 @@ class _HomePageState extends State<HomePage> {
         ),
         body:Stack(
             children: [
-              // Dropdown to select a folder when creating a new one!!
-              DropdownButton<String>(
-                value: selectedFolder,
-                items: noteOperations.getAllFolders().map((folder) {
-                  return DropdownMenuItem<String>(
-                    value: folder,
-                    child: Text(folder, style: GoogleFonts.readexPro(color: Colors.white)),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedFolder = value!;
-                  });
-                },
-                dropdownColor: const Color(0xFF474747),
-                style: const TextStyle(color: Colors.white),
-              ),
-              Expanded(
-                child: ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                itemCount: noteOperations.getAllNotes().length,
-                itemBuilder: (context, index) {
-                  var note = noteOperations.getAllNotes()[index];
-                  return GestureDetector(
-                    onTap: () => _onNoteTap(context, note),
-                    child: Container(
-                      height: 200,
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color(0xFF474747),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                              color: widget.selectedColor ?? const Color(0xFF474747),
-                              image: widget.selectedColor == null
-                                  ? DecorationImage(
-                                image: NetworkImage(
-                                    'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
-                                fit: BoxFit.cover,
-                              )
-                                  : null,
-                            ),
+              Container(
+                margin: EdgeInsets.only(top: 40.0),
+                child: Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(8.0),
+                    itemCount: noteOperations.getAllNotes().length,
+                    itemBuilder: (context, index) {
+                      var note = noteOperations.getAllNotes()[index];
+                      return GestureDetector(
+                        onTap: () => _onNoteTap(context, note),
+                        child: Container(
+                          height: 200,
+                          margin: const EdgeInsets.symmetric(vertical: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: const Color(0xFF474747),
                           ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      note.text,
-                                      style: GoogleFonts.readexPro(
-                                        color: Colors.white,
-                                        fontSize: 18,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                                  color: widget.selectedColor ?? const Color(0xFF474747),
+                                  image: widget.selectedColor == null
+                                      ? DecorationImage(
+                                    image: NetworkImage(
+                                        'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
+                                    fit: BoxFit.cover,
+                                  )
+                                      : null,
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          note.text,
+                                          style: GoogleFonts.readexPro(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(Icons.delete, color: Color(0xFFFFDEA7)),
-                                        onPressed: () {
-                                          noteOperations.deleteNode(note);
-                                        },
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(Icons.delete, color: Color(0xFFFFDEA7)),
+                                            onPressed: () {
+                                              noteOperations.deleteNode(note);
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
+                                            onPressed: () {},
+                                          ),
+                                        ],
                                       ),
-                                      IconButton(
-                                        icon: const Icon(Icons.star_border, color: Color(0xFFFFDEA7)),
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-              ), // First floating button
+              // First floating button
               Positioned(
                 bottom: 50,
                 right: 20,
@@ -227,6 +214,26 @@ class _HomePageState extends State<HomePage> {
                   child: const Icon(Icons.folder_open, color: Color(0xFF1C1C1C)),
                 ),
               ),
+              // Dropdown to select a folder when creating a new one!!
+              Positioned(
+                right: 200,
+                child: DropdownButton<String>(
+                value: selectedFolder,
+                items: noteOperations.getAllFolders().map((folder) {
+                  return DropdownMenuItem<String>(
+                    value: folder,
+                    child: Text(folder, style: GoogleFonts.readexPro(color: Colors.white)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedFolder = value!;
+                  });
+                },
+                dropdownColor: const Color(0xFF474747),
+                style: const TextStyle(color: Colors.white),
+              ),
+              )
             ],
           ),
         )
