@@ -91,9 +91,9 @@ class _HomePageState extends State<HomePage> {
                 child: Expanded(
                   child: ListView.builder(
                     padding: const EdgeInsets.all(8.0),
-                    itemCount: noteOperations.getAllNotes().length,
+                    itemCount: filteredNotes.length,
                     itemBuilder: (context, index) {
-                      var note = noteOperations.getAllNotes()[index];
+                      var note = filteredNotes[index];
                       return GestureDetector(
                         onTap: () => _onNoteTap(context, note),
                         child: Container(
@@ -185,29 +185,42 @@ class _HomePageState extends State<HomePage> {
               ),
               // Second floating button
               Positioned(
-                bottom: 115,
+                bottom: 120,
                 right: 20,
                 child: FloatingActionButton(
                   onPressed: () {
                     showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
+                      context: context,
+                      builder: (context) {
+                        String folderName = ''; // Track folder name input
+                        return AlertDialog(
                           title: Text('Create new Folder'),
-                        content: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Enter Folder name'
+                          content: TextField(
+                            onChanged: (value) {
+                              folderName = value; // Capture the folder name
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter Folder name',
+                            ),
                           ),
-                        ),
-                        actions: [
-                          TextButton( onPressed: () => Navigator.pop(context),
-                              child: Text('cancel')
-                          ),
-                          TextButton( onPressed: () => Navigator.pop(context),
-                              child: Text('ok')
-                          ),
-                        ],
-                      )
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                if (folderName.isNotEmpty) {
+                                  noteOperations.createFolder(folderName);
+                                }
+                                Navigator.pop(context);
+                              },
+                              child: Text('Ok'),
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
                   backgroundColor: const Color(0xFFFFDEA7),
@@ -216,7 +229,7 @@ class _HomePageState extends State<HomePage> {
               ),
               // Dropdown to select a folder when creating a new one!!
               Positioned(
-                right: 200,
+                right: 210,
                 child: DropdownButton<String>(
                 value: selectedFolder,
                 items: noteOperations.getAllFolders().map((folder) {
