@@ -6,12 +6,18 @@
 https://www.youtube.com/watch?v=BUCCHdKwKxE
 * https://www.youtube.com/watch?v=Jd8Lom3I6Qc*/
 
+import 'package:flutter/material.dart';
+
+
 class NoteData{
   int id;
   String text;
   DateTime lastSaved; //added -gab
   String noteText;
   String folder; //added to store the folder name
+  final String? imageUrl;
+  final Color? color;
+
 
 
   NoteData({
@@ -20,5 +26,7 @@ class NoteData{
     required this.lastSaved, //added -gab
     required this.noteText, //added -gab
     required this.folder,
+    this.imageUrl,
+    this.color,
   });
 }

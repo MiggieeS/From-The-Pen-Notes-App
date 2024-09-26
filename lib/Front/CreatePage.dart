@@ -4,11 +4,13 @@ import 'package:provider/provider.dart';
 import '../BackEnd/note_operations.dart';
 import '../BackEnd/note_data.dart';
 import 'inner_notes_page.dart';
-import 'home_page.dart';  // Import HomePage
+import 'home_page.dart';
 
 class CreatePageWidget extends StatefulWidget {
-  final String selectedFolder; // Added to accept the selected folder
-  const CreatePageWidget({super.key, required this.selectedFolder}); // Constructor update
+  final String selectedFolder;
+
+  const CreatePageWidget({super.key, required this.selectedFolder});
+
   @override
   State<CreatePageWidget> createState() => _CreatePageWidgetState();
 }
@@ -22,7 +24,7 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
   final _formKey = GlobalKey<FormState>();
   Color? _selectedColor; // State variable for selected color
 
-  final List<Color> _colors = [ // List of available colors
+  final List<Color> _colors = [
     Colors.red,
     Colors.green,
     Colors.blue,
@@ -56,9 +58,9 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFF1C1C1C),
+        backgroundColor: const Color(0xFF1C1C1C),
         appBar: AppBar(
-          backgroundColor: Color(0xFF1C1C1C),
+          backgroundColor: const Color(0xFF1C1C1C),
           automaticallyImplyLeading: false,
           title: Column(
             mainAxisSize: MainAxisSize.max,
@@ -67,9 +69,8 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
               Text(
                 'Create Note',
                 style: GoogleFonts.outfit(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: Color(0xFFFFDEA7),
-                    letterSpacing: 0.0,
                     fontSize: 24,
                   ),
                 ),
@@ -77,37 +78,34 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
               Text(
                 'Please fill out the form below to continue.',
                 style: GoogleFonts.readexPro(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     color: Color(0xFF766851),
-                    letterSpacing: 0.0,
                     fontSize: 16,
                   ),
                 ),
               ),
-            ].map((widget) => Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              child: widget,
-            )).toList(),
+            ],
           ),
           actions: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 8, 12, 8),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 12, 8),
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.close_rounded,
                   color: Colors.white,
                   size: 24,
                 ),
                 onPressed: () async {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => HomePage(selectedColor: _selectedColor)), // Pass color to HomePage
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage(selectedColor: _selectedColor)),
                         (Route<dynamic> route) => false,
                   );
                 },
               ),
             ),
           ],
-          centerTitle: false,
           elevation: 0,
         ),
         body: SafeArea(
@@ -127,12 +125,13 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                         Align(
                           alignment: AlignmentDirectional(0, -1),
                           child: Container(
-                            constraints: BoxConstraints(
+                            constraints: const BoxConstraints(
                               maxWidth: 770,
                             ),
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 12, 16, 0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,65 +140,69 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                     controller: _taskTextController,
                                     focusNode: _taskFocusNode,
                                     autofocus: true,
-                                    textCapitalization: TextCapitalization.words,
-                                    obscureText: false,
+                                    textCapitalization:
+                                    TextCapitalization.words,
                                     decoration: InputDecoration(
                                       labelText: 'Task or Title',
                                       labelStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           color: Colors.grey,
-                                          letterSpacing: 0.0,
                                         ),
                                       ),
                                       hintStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          letterSpacing: 0.0,
+                                        textStyle: const TextStyle(
                                           color: Colors.white,
                                         ),
                                       ),
                                       errorStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
+                                        textStyle: const TextStyle(
                                           color: Colors.red,
                                           fontSize: 12,
-                                          letterSpacing: 0.0,
                                         ),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.grey,
                                           width: 2,
                                         ),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius:
+                                        BorderRadius.circular(12),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.blue,
                                           width: 2,
                                         ),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius:
+                                        BorderRadius.circular(12),
                                       ),
                                       errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.red,
                                           width: 2,
                                         ),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius:
+                                        BorderRadius.circular(12),
                                       ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                      focusedErrorBorder:
+                                      OutlineInputBorder(
+                                        borderSide: const BorderSide(
                                           color: Colors.red,
                                           width: 2,
                                         ),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius:
+                                        BorderRadius.circular(12),
                                       ),
                                       filled: true,
-                                      fillColor: Color(0xFF1C1C1C),
-                                      contentPadding: EdgeInsetsDirectional.fromSTEB(16, 20, 16, 20),
+                                      fillColor: const Color(0xFF1C1C1C),
+                                      contentPadding:
+                                      const EdgeInsetsDirectional
+                                          .fromSTEB(
+                                          16, 20, 16, 20),
                                     ),
                                     style: GoogleFonts.readexPro(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         color: Colors.white,
-                                        letterSpacing: 0.0,
                                       ),
                                     ),
                                     cursorColor: Colors.blue,
@@ -210,64 +213,57 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                       return null;
                                     },
                                   ),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   TextFormField(
                                     controller: _imageUrlController,
                                     focusNode: _imageUrlFocusNode,
                                     autofocus: false,
-                                    textCapitalization: TextCapitalization.none,
-                                    obscureText: false,
                                     decoration: InputDecoration(
                                       labelText: 'Image URL (optional)',
-                                      labelStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          letterSpacing: 0.0,
-                                        ),
-                                      ),
-                                      hintStyle: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          letterSpacing: 0.0,
-                                        ),
-                                      ),
+                                      labelStyle: GoogleFonts.readexPro(),
+                                      hintStyle: GoogleFonts.readexPro(),
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.grey,
                                           width: 2,
                                         ),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius:
+                                        BorderRadius.circular(12),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
+                                        borderSide: const BorderSide(
                                           color: Colors.blue,
                                           width: 2,
                                         ),
-                                        borderRadius: BorderRadius.circular(12),
+                                        borderRadius:
+                                        BorderRadius.circular(12),
                                       ),
                                       filled: true,
-                                      fillColor: Color(0xFF1C1C1C),
-                                      contentPadding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                                      fillColor: const Color(0xFF1C1C1C),
+                                      contentPadding:
+                                      const EdgeInsetsDirectional
+                                          .fromSTEB(
+                                          16, 16, 16, 16),
                                     ),
                                     style: GoogleFonts.readexPro(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         color: Colors.white,
-                                        letterSpacing: 0.0,
                                       ),
                                     ),
                                     cursorColor: Colors.blue,
                                   ),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   // Color Picker Section
                                   Text(
                                     'Select a Color:',
                                     style: GoogleFonts.readexPro(
-                                      textStyle: TextStyle(
+                                      textStyle: const TextStyle(
                                         color: Colors.white,
-                                        letterSpacing: 0.0,
                                         fontSize: 16,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Wrap(
                                     spacing: 10,
                                     runSpacing: 10,
@@ -282,29 +278,37 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                           backgroundColor: color,
                                           radius: 30,
                                           child: _selectedColor == color
-                                              ? Icon(Icons.check, color: Colors.white)
+                                              ? const Icon(Icons.check,
+                                              color: Colors.white)
                                               : null,
                                         ),
                                       );
                                     }).toList(),
                                   ),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   ElevatedButton(
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        // Create a new note and navigate to InnerNotesPage
+                                      if (_formKey.currentState!
+                                          .validate()) {
+                                        // Create a new note and pass the color and image URL
                                         final newNote = NoteData(
-                                          id: DateTime.now().millisecondsSinceEpoch, // Unique ID for the note
+                                          id: DateTime.now()
+                                              .millisecondsSinceEpoch,
                                           text: _taskTextController.text,
-                                          lastSaved: DateTime.now(), noteText: '', // Add the date when it was last saved
+                                          lastSaved: DateTime.now(),
+                                          noteText: '',
                                           folder: widget.selectedFolder,
+                                          color: _selectedColor,
+                                          imageUrl:
+                                          _imageUrlController.text,
                                         );
-                                        // Add the new notes to the note operations
                                         noteOperations.addNewNote(newNote);
-                                        // Pass the selected color to HomePage
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) => HomePage(selectedColor: _selectedColor),
+                                            builder: (context) =>
+                                                HomePage(
+                                                    selectedColor:
+                                                    _selectedColor),
                                           ),
                                         );
                                       }
@@ -312,21 +316,25 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                     child: Text(
                                       'Get Started',
                                       style: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          color: Color(0xFF222222), // Text color
-                                          letterSpacing: 0.0,
+                                        textStyle: const TextStyle(
+                                          color: Color(0xFF222222),
                                         ),
                                       ),
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFFFDEA7), // Fixed color
-                                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                      backgroundColor:
+                                      const Color(0xFFFFDEA7),
+                                      padding:
+                                      const EdgeInsetsDirectional
+                                          .fromSTEB(
+                                          24, 0, 24, 0),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius:
+                                        BorderRadius.circular(8),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 32),
+                                  const SizedBox(height: 32),
                                 ],
                               ),
                             ),
