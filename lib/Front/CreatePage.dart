@@ -289,42 +289,46 @@ class _CreatePageWidgetState extends State<CreatePageWidget> {
                                     }).toList(),
                                   ),
                                   SizedBox(height: 12),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        // Create a new note and navigate to InnerNotesPage
-                                        final newNote = NoteData(
-                                          id: DateTime.now().millisecondsSinceEpoch, // Unique ID for the note
-                                          text: _taskTextController.text,
-                                          lastSaved: DateTime.now(), noteText: '', // Add the date when it was last saved
-                                        );
-                                        // Add the new notes to the note operations
-                                        noteOperations.addNewNote(newNote);
-                                        // Pass the selected color to HomePage
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => HomePage(selectedColor: _selectedColor),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Text(
-                                      'Get Started',
-                                      style: GoogleFonts.readexPro(
-                                        textStyle: TextStyle(
-                                          color: Color(0xFF222222), // Text color
-                                          letterSpacing: 0.0,
-                                        ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    // Create a new note and navigate to InnerNotesPage
+                                    final newNote = NoteData(
+                                      id: DateTime.now().millisecondsSinceEpoch, // Unique ID for the note
+                                      text: _taskTextController.text,
+                                      lastSaved: DateTime.now(),
+                                      noteText: '', // Add the date when it was last saved
+                                      imageUrl: _imageUrlController.text.isNotEmpty ? _imageUrlController.text : null, // Save image URL
+                                      color: _selectedColor, // Save selected color
+                                    );
+                                    // Add the new notes to the note operations
+                                    noteOperations.addNewNote(newNote);
+
+                                    // Navigate to HomePage
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => HomePage(selectedColor: _selectedColor),
                                       ),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFFFDEA7), // Fixed color
-                                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  'Get Started',
+                                  style: GoogleFonts.readexPro(
+                                    textStyle: TextStyle(
+                                      color: Color(0xFF222222), // Text color
+                                      letterSpacing: 0.0,
                                     ),
                                   ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFFFDEA7), // Fixed color
+                                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              ),
                                   SizedBox(height: 32),
                                 ],
                               ),

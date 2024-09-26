@@ -97,7 +97,7 @@ class HomePage extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: const Color(0xFF474747),
+                          color: note.color ?? const Color(0xFF474747), // Use note's color
                         ),
                         child: Column(
                           children: [
@@ -105,12 +105,11 @@ class HomePage extends StatelessWidget {
                               width: double.infinity,
                               height: 120,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                                color: selectedColor ?? const Color(0xFF474747),
-                                image: selectedColor == null
+                                borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                                color: note.color ?? const Color(0xFF474747), // Use note's color
+                                image: note.imageUrl != null
                                     ? DecorationImage(
-                                  image: NetworkImage(
-                                      'https://images-ext-1.discordapp.net/external/gz02ColGW9ZW-3n-7N-VOp6skscaWuRtoMbpc7ultY8/https/pbs.twimg.com/media/GXIJhtUbEAELjo_.jpg%3Alarge?format=webp&width=901&height=676'),
+                                  image: NetworkImage(note.imageUrl!), // Use note's image URL
                                   fit: BoxFit.cover,
                                 )
                                     : null,
@@ -160,8 +159,8 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
-                      child: folderButton(),
+                      margin: const EdgeInsets.only(top: 15.0, left: 7.0, right: 7.0),
+                      child: const FolderButton(),
                     ),
                     Expanded(
                       child: ListView.builder(
@@ -222,14 +221,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class folderButton extends StatefulWidget {
-  const folderButton({Key? key}) : super(key: key);
+class FolderButton extends StatefulWidget {
+  const FolderButton({Key? key}) : super(key: key);
 
   @override
-  State<folderButton> createState() => _FolderButtonState();
+  State<FolderButton> createState() => _FolderButtonState();
 }
 
-class _FolderButtonState extends State<folderButton> {
+class _FolderButtonState extends State<FolderButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -237,7 +236,7 @@ class _FolderButtonState extends State<folderButton> {
       width: 500,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFFFDEA7),
+          backgroundColor: const Color(0xFFFFDEA7),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -246,24 +245,27 @@ class _FolderButtonState extends State<folderButton> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Create new Folder'),
+              title: const Text('Create new Folder'),
               actions: [
-                TextField(
+                const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter Folder name',
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 15.0),
+                  margin: const EdgeInsets.only(top: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
-                      TextButton(onPressed: () => Navigator.pop(context), child: Text('Ok'))
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Ok'),
+                      )
                     ],
                   ),
                 )
@@ -274,7 +276,7 @@ class _FolderButtonState extends State<folderButton> {
         child: Text(
           "Create Folder",
           style: GoogleFonts.readexPro(
-            color: Color(0xFF474747),
+            color: const Color(0xFF474747),
             fontSize: 18,
           ),
         ),
