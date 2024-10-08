@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "249215294825",
+    "project_id": "gabbers-app-1",
+    "storage_bucket": "gabbers-app-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249215294825:android:92550af161d2b4c19071f8",
+        "android_client_info": {
+          "package_name": "com.gabbers.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn7JszxZgw68aZFmzmfGVV0wjP5HXL6Iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
