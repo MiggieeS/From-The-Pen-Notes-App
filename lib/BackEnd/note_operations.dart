@@ -59,3 +59,4 @@ class NoteOperations extends ChangeNotifier {
     return allFolders;
   }
 }
+
