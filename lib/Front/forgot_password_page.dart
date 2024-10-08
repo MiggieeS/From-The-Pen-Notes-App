@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'forgot_password_page.dart';
-import 'home_page.dart';
-import 'register_page.dart';
-import '../BackEnd/auth_service.dart'; // Import your AuthService
+import '../BackEnd/auth_service.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool _hidePass = true;
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>(); // Add a key for the form
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Form( // Wrap the column in a Form widget
+          child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Login',
+                      'Forgot Password',
                       style: GoogleFonts.readexPro(
                         color: const Color(0xFFFFDEA7),
                         fontSize: 45,
@@ -47,13 +42,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                // Sign in to continue text
                 Padding(
                   padding: const EdgeInsets.only(left: 35.0, bottom: 30.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Please sign in to continue.',
+                      'Please enter your email to reset your password.',
                       style: GoogleFonts.readexPro(
                         color: const Color(0xFF9E9E9E),
                         fontSize: 16,
@@ -64,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: TextFormField(
-                    controller: _emailController, // Assign the controller
+                    controller: _emailController,
                     style: GoogleFonts.readexPro(
                       color: Colors.white,
                     ),
@@ -92,11 +86,12 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    validator: (value) { // Add validation
+                    validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
                       }
-                      if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(value)) {
+                      if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$') //Used regex to capture email value.
+                          .hasMatch(value)) {
                         return 'Please enter a valid email';
                       }
                       return null;
@@ -106,72 +101,23 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  child: TextFormField(
-                    controller: _passwordController, // Assign the controller
-                    style: GoogleFonts.readexPro(
-                      color: Colors.white,
-                    ),
-                    obscureText: _hidePass,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Password',
-                      hintStyle: GoogleFonts.readexPro(
-                        color: const Color(0xFF878787),
-                      ),
-                      labelStyle: GoogleFonts.readexPro(
-                        color: const Color(0xFF798087),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Color(0xFFFDFDFD),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    validator: (value) { // Add validation
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(height: 30),
-
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (_formKey.currentState!.validate()) { // Check if the form is valid
+                      if (_formKey.currentState!.validate()) {
                         try {
-                          await AuthService.login(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text,
+                          await AuthService.resetPassword(
+                            _emailController.text.trim(),
                           );
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const HomePage()),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Password reset email sent.')),
                           );
                         } catch (e) {
-                          // Handle the error (show a dialog or a snackbar)
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
                               title: const Text('Error'),
-                              content: Text(e.toString()), // Show the error message
+                              content: Text(e.toString()),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
@@ -190,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Text(
-                      'Login',
+                      'Reset Password',
                       style: GoogleFonts.readexPro(
                         color: const Color(0xFF222222),
                         fontSize: 18,
@@ -199,44 +145,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
-                // Don't have an account? Sign up
-                Text(
-                  "Don't have an account? ",
-                  style: GoogleFonts.readexPro(
-                    color: const Color(0xFF9E9E9E),
-                    fontSize: 14, // Smaller font size
-                  ),
-                ),
+                // Back to Login button
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegisterPage()),
-                    );
+                    Navigator.pop(context);
                   },
                   child: Text(
-                    'Sign up',
+                    'Back to Login',
                     style: GoogleFonts.readexPro(
-                      color: const Color(0xFFFFDEA7), // Color for the sign-up link
-                      fontSize: 14, // Match the smaller font size
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
-                    );
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: GoogleFonts.readexPro(
-                      color: const Color(0xFFFFDEA7), // Color for the link
-                      fontSize: 14,
+                      color: const Color(0xFFFFDEA7),
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -250,10 +169,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _emailController.dispose(); // Dispose controllers to free resources
-    _passwordController.dispose();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    _emailController.dispose();
     super.dispose();
   }
 }
-

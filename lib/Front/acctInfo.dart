@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../BackEnd/auth_service.dart';
 import 'profilePage.dart';
 
 class AccountInfoPage extends StatefulWidget {
@@ -13,15 +14,14 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   String firstName = 'Gabbers';
   String lastName = 'Gabbers';
   String email = 'gabbers@gmail.com';
-  String password = 'g@bberSS'; // This will be hidden as ******
   bool isPasswordVisible = false;
 
-
-  // Function to handle the change password logic
+  //changepass logic
   void _showChangePasswordDialog() {
     String currentPassword = '';
     String newPassword = '';
     String confirmNewPassword = '';
+    bool isLoading = false; // Loading state variable
 
     showDialog(
       context: context,
@@ -32,7 +32,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-
                 'Change Password',
                 style: GoogleFonts.readexPro(
                   color: const Color(0xFFFFDEA7),
@@ -51,23 +50,27 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                obscureText: true,
-                style: GoogleFonts.readexPro(
-                  color: Colors.white,
-                ),
+                obscureText: !isPasswordVisible,
+                style: GoogleFonts.readexPro(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: 'Current Password',
                   hintStyle: GoogleFonts.readexPro(color: const Color(0xFF878787)),
                   border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        isPasswordVisible = !isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
                 onChanged: (value) => currentPassword = value,
               ),
               const SizedBox(height: 10),
               TextField(
-                style: GoogleFonts.readexPro(
-                  color: Colors.white,
-                ),
-                obscureText: true,
+                obscureText: !isPasswordVisible,
+                style: GoogleFonts.readexPro(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: 'New Password',
                   hintStyle: GoogleFonts.readexPro(color: const Color(0xFF878787)),
@@ -77,10 +80,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
               ),
               const SizedBox(height: 10),
               TextField(
-                style: GoogleFonts.readexPro(
-                  color: Colors.white,
-                ),
-                obscureText: true,
+                obscureText: !isPasswordVisible,
+                style: GoogleFonts.readexPro(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: 'Confirm New Password',
                   hintStyle: GoogleFonts.readexPro(color: const Color(0xFF878787)),
@@ -92,24 +93,44 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                // Validate passwords
-                if (currentPassword != password) {
+              onPressed: () async {
+                //password validation
+                if (currentPassword.isEmpty || newPassword.isEmpty || confirmNewPassword.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Incorrect current password!', style: GoogleFonts.readexPro())),
+                    SnackBar(content: Text('Please fill in all fields!', style: GoogleFonts.readexPro())),
                   );
-                } else if (newPassword != confirmNewPassword) {
+                  return;
+                }
+
+                if (newPassword != confirmNewPassword) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Passwords do not match!', style: GoogleFonts.readexPro())),
                   );
-                } else {
-                  setState(() {
-                    password = newPassword; // Update password
-                  });
+                  return;
+                }
+
+                setState(() {
+                  isLoading = true;
+                });
+
+                try {
+                  //call authservice for change password
+                  await AuthService.changePassword(
+                    currentPassword: currentPassword,
+                    newPassword: newPassword,
+                  );
                   Navigator.pop(context); // Close dialog
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Password successfully changed!', style: GoogleFonts.readexPro())),
                   );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString(), style: GoogleFonts.readexPro())),
+                  );
+                } finally {
+                  setState(() {
+                    isLoading = false;
+                  });
                 }
               },
               child: Text('Confirm', style: GoogleFonts.readexPro(color: const Color(0xFFFFDEA7))),
@@ -129,7 +150,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         leading: IconButton(
           icon: const Icon(Icons.close, color: Color(0xFFFFDEA7)),
           onPressed: () {
-            // Navigate back to HomePage when "X" is pressed
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const ProfilePage()),
@@ -175,7 +195,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
     );
   }
 
-  // Helper function to build info row
   Widget _buildInfoRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
@@ -200,34 +219,5 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       ),
     );
   }
-
-  // Helper function to build password row
-  Widget _buildPasswordRow() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'Password',
-            style: GoogleFonts.readexPro(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-          Row(
-            children: [
-              Text(
-                isPasswordVisible ? password : '*' * password.length,
-                style: GoogleFonts.readexPro(
-                  color: const Color(0xFFFFDEA7),
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 }
+
