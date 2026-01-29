@@ -1,3 +1,9 @@
-From-The-Pen-Notes-App
+# From-The-Pen Notes App 
 
-A cross-platform Flutter app for secure, folder-based note-taking. Built with Firebase for authentication
+A cross-platform Flutter app for secure, folder-based note-taking. Built with Firebase for authentication and data sync.
+
+## Features
+-  User login & registration
+-  Create, edit, and organize notes
+-  Folder management
+-  Profile view & update
